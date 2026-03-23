@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tyler Ervin — Race Analysis · Red Bull Tennessee National 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c0f;
+  --bg2: #111318;
+  --bg3: #181c23;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8eaf0;
+  --muted: #6b7280;
+  --muted2: #9ca3af;
+  --accent: #3b82f6;
+  --accent2: #60a5fa;
+  --green: #10b981;
+  --green2: #34d399;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --mono: 'DM Mono', monospace;
+  --head: 'Barlow Condensed', sans-serif;
+  --body: 'Barlow', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-weight: 300;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle grid texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- HEADER ---- */
+.header {
+  padding: 56px 0 48px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 48px;
+}
+
+.header-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .15em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+h1 {
+  font-family: var(--head);
+  font-size: clamp(52px, 8vw, 80px);
+  font-weight: 800;
+  line-height: .95;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--accent2);
+}
+
+.header-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .05em;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.header-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-meta span::before {
+  content: '//';
+  color: var(--accent);
+  font-size: 10px;
+}
+
+/* ---- SECTION LABELS ---- */
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+}
+
+/* ---- RESULT HERO ---- */
+.result-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.result-cell {
+  background: var(--bg2);
+  padding: 28px 24px;
+}
+
+.result-cell-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.result-cell-value {
+  font-family: var(--head);
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+
+.result-cell-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted2);
+  margin-top: 6px;
+}
+
+.val-green { color: var(--green2); }
+.val-blue { color: var(--accent2); }
+.val-amber { color: var(--amber); }
+.val-white { color: var(--text); }
+
+/* ---- SECTOR TABLE ---- */
+.sector-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 48px;
+  font-family: var(--mono);
+}
+
+.sector-table thead tr {
+  border-bottom: 1px solid var(--border2);
+}
+
+.sector-table th {
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  text-align: left;
+  padding: 10px 16px;
+  font-weight: 400;
+}
+
+.sector-table th:not(:first-child) { text-align: right; }
+
+.sector-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+
+.sector-table tbody tr:hover { background: rgba(255,255,255,.03); }
+
+.sector-table td {
+  padding: 16px 16px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.sector-table td:not(:first-child) { text-align: right; }
+
+.sector-name {
+  font-family: var(--head);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: .03em;
+  color: var(--text);
+}
+
+.rank-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 44px;
+  text-align: center;
+}
+
+.rank-elite { background: rgba(16,185,129,.15); color: var(--green2); border: 1px solid rgba(16,185,129,.3); }
+.rank-strong { background: rgba(59,130,246,.15); color: var(--accent2); border: 1px solid rgba(59,130,246,.3); }
+.rank-mid { background: rgba(255,255,255,.06); color: var(--muted2); border: 1px solid var(--border2); }
+.rank-weak { background: rgba(245,158,11,.08); color: var(--amber); border: 1px solid rgba(245,158,11,.25); }
+
+.delta {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+.delta-up { color: var(--green2); }
+.delta-down { color: var(--red); }
+.delta-same { color: var(--muted); }
+
+.bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.mini-bar {
+  width: 80px;
+  height: 4px;
+  background: rgba(255,255,255,.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.mini-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* ---- TIME COMPARISON ---- */
+.time-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.time-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.time-card.improved::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--green);
+}
+
+.time-card.slower::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--amber);
+}
+
+.time-card.same::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.tc-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .1em; margin-bottom: 12px; }
+
+.tc-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.tc-tag { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.tc-time { font-family: var(--mono); font-size: 13px; font-weight: 500; }
+.tc-seed { color: var(--muted2); }
+.tc-race { color: var(--text); }
+
+.tc-diff {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* ---- INSIGHT CARDS ---- */
+.insights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.insight-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+}
+
+.insight-card.featured {
+  grid-column: span 2;
+  border-color: rgba(59,130,246,.3);
+  background: rgba(59,130,246,.05);
+}
+
+.ic-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ic-tag.t-green { color: var(--green2); }
+.ic-tag.t-blue { color: var(--accent2); }
+.ic-tag.t-amber { color: var(--amber); }
+
+.ic-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.ic-title {
+  font-family: var(--head);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: .01em;
+}
+
+.ic-body {
+  font-size: 14px;
+  color: var(--muted2);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.ic-stat {
+  font-family: var(--head);
+  font-size: 36px;
+  font-weight: 800;
+  margin: 10px 0 4px;
+  line-height: 1;
+}
+
+/* ---- FIELD CONTEXT ---- */
+.field-list {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 90px 80px;
+  align-items: center;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  transition: background .12s;
+}
+
+.field-row:hover { background: rgba(255,255,255,.03); }
+.field-row:last-child { border-bottom: none; }
+.field-row.tyler-row { background: rgba(59,130,246,.07); border-left: 3px solid var(--accent); }
+.field-row.tyler-row:hover { background: rgba(59,130,246,.1); }
+
+.fr-pos { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.fr-name { font-family: var(--body); font-weight: 400; }
+.fr-time { font-family: var(--mono); font-size: 12px; text-align: right; }
+.fr-gap { font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; }
+
+.tyler-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  margin-left: 8px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+.divider-row {
+  padding: 8px 18px;
+  background: var(--bg3);
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: .1em;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---- FOOTER ---- */
+.footer {
+  border-top: 1px solid var(--border);
+  padding-top: 32px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: gap;
+}
+
+.footer-left {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.footer-left strong {
+  color: var(--muted2);
+  font-weight: 400;
+}
+
+.footer-right {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border2);
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted2);
+  letter-spacing: .05em;
+  margin-top: 10px;
+}
+
+.ai-badge svg { opacity: .6; }
+
+@media (max-width: 640px) {
+  .result-hero { grid-template-columns: 1fr 1fr; }
+  .time-compare { grid-template-columns: 1fr 1fr 1fr; }
+  .insights { grid-template-columns: 1fr; }
+  .insight-card.featured { grid-column: span 1; }
+  h1 { font-size: 44px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-eyebrow">Race Analysis Report</div>
+    <h1>Tyler<br><em>Ervin</em></h1>
+    <div style="font-family: var(--head); font-size: 22px; font-weight: 400; color: var(--muted2); letter-spacing: .03em; text-transform: uppercase; margin-top: 8px;">
+      Red Bull Tennessee National · UCI Cat 1 · Windrock Bike Park
+    </div>
+    <div class="header-meta">
+      <span>March 22, 2026</span>
+      <span>Oliver Springs, TN</span>
+      <span>Pro Men · 70 finishers</span>
+      <span>5 timed sectors</span>
+    </div>
+  </header>
+
+  <!-- RESULT HERO -->
+  <div class="section-label">Race result</div>
+  <div class="result-hero">
+    <div class="result-cell">
+      <div class="result-cell-label">Final position</div>
+      <div class="result-cell-value val-white">20<span style="font-size:24px;font-weight:400">th</span></div>
+      <div class="result-cell-sub">of 70 finishers</div>
+    </div>
+    <div class="result-cell">
+      <div class="result-cell-label">Race time</div>
+      <div class="result-cell-value val-white" style="font-size:32px;">2:33.484</div>
+      <div class="result-cell-sub">+4.313s off leader</div>
+    </div>
+    <div class="result-cell">
+      <div class="result-cell-label">vs seeding</div>
+      <div class="result-cell-value val-green">↑5</div>
+      <div class="result-cell-sub">0.923s faster on race day</div>
+    </div>
+    <div class="result-cell">
+      <div class="result-cell-label">Top percentile</div>
+      <div class="result-cell-value val-blue">29<span style="font-size:24px;font-weight:400">%</span></div>
+      <div class="result-cell-sub">Pro Men field</div>
+    </div>
+  </div>
+
+  <!-- SECTOR TABLE -->
+  <div class="section-label">Sector rankings — race run</div>
+  <table class="sector-table">
+    <thead>
+      <tr>
+        <th>Sector</th>
+        <th>Time</th>
+        <th>Field rank</th>
+        <th>vs seeding rank</th>
+        <th>Gap to best</th>
+        <th style="text-align:right">Bar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="sector-name">Sector 1</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;">top of mountain</div>
+        </td>
+        <td>32.593s</td>
+        <td><span class="rank-badge rank-mid">20th</span></td>
+        <td><span class="delta delta-up">↑ +16 (was 36th)</span></td>
+        <td style="color:var(--muted2);">+1.658s</td>
+        <td>
+          <div class="bar-wrap">
+            <div class="mini-bar"><div class="mini-bar-fill" style="width:62%;background:var(--muted2)"></div></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="sector-name">Sector 2</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;">upper mid</div>
+        </td>
+        <td>25.024s</td>
+        <td><span class="rank-badge rank-mid">26th</span></td>
+        <td><span class="delta delta-down">↓ −7 (was 19th)</span></td>
+        <td style="color:var(--muted2);">+1.765s</td>
+        <td>
+          <div class="bar-wrap">
+            <div class="mini-bar"><div class="mini-bar-fill" style="width:52%;background:var(--muted2)"></div></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="sector-name">Sector 3</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;">mid-mountain</div>
+        </td>
+        <td>34.299s</td>
+        <td><span class="rank-badge rank-mid">22nd</span></td>
+        <td><span class="delta delta-same">→ −2 (was 20th)</span></td>
+        <td style="color:var(--muted2);">+2.510s</td>
+        <td>
+          <div class="bar-wrap">
+            <div class="mini-bar"><div class="mini-bar-fill" style="width:56%;background:var(--muted2)"></div></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="sector-name">Sector 4</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;">lower mid</div>
+        </td>
+        <td>32.865s</td>
+        <td><span class="rank-badge rank-strong">20th</span></td>
+        <td><span class="delta delta-up">↑ +14 (was 34th)</span></td>
+        <td style="color:var(--muted2);">+1.465s</td>
+        <td>
+          <div class="bar-wrap">
+            <div class="mini-bar"><div class="mini-bar-fill" style="width:68%;"></div></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="sector-name">Sector 5</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;">bottom — finish</div>
+        </td>
+        <td>28.703s</td>
+        <td><span class="rank-badge rank-elite">14th ★</span></td>
+        <td><span class="delta delta-same">→ same (was 14th)</span></td>
+        <td style="color:var(--muted2);">+1.558s</td>
+        <td>
+          <div class="bar-wrap">
+            <div class="mini-bar"><div class="mini-bar-fill" style="width:88%;background:var(--green)"></div></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TIME COMPARISON CARDS -->
+  <div class="section-label">Seeding → race time shift</div>
+  <div class="time-compare">
+    <div class="time-card improved">
+      <div class="tc-label">Sector 1</div>
+      <div class="tc-row"><span class="tc-tag">seed</span><span class="tc-time tc-seed">33.270s</span></div>
+      <div class="tc-row"><span class="tc-tag">race</span><span class="tc-time tc-race">32.593s</span></div>
+      <div class="tc-diff" style="color:var(--green2);">−0.677s faster</div>
+    </div>
+    <div class="time-card slower">
+      <div class="tc-label">Sector 2</div>
+      <div class="tc-row"><span class="tc-tag">seed</span><span class="tc-time tc-seed">24.659s</span></div>
+      <div class="tc-row"><span class="tc-tag">race</span><span class="tc-time tc-race">25.024s</span></div>
+      <div class="tc-diff" style="color:var(--amber);">+0.365s</div>
+    </div>
+    <div class="time-card improved">
+      <div class="tc-label">Sector 3</div>
+      <div class="tc-row"><span class="tc-tag">seed</span><span class="tc-time tc-seed">34.414s</span></div>
+      <div class="tc-row"><span class="tc-tag">race</span><span class="tc-time tc-race">34.299s</span></div>
+      <div class="tc-diff" style="color:var(--green2);">−0.115s faster</div>
+    </div>
+    <div class="time-card improved">
+      <div class="tc-label">Sector 4</div>
+      <div class="tc-row"><span class="tc-tag">seed</span><span class="tc-time tc-seed">33.549s</span></div>
+      <div class="tc-row"><span class="tc-tag">race</span><span class="tc-time tc-race">32.865s</span></div>
+      <div class="tc-diff" style="color:var(--green2);">−0.684s faster</div>
+    </div>
+    <div class="time-card slower">
+      <div class="tc-label">Sector 5</div>
+      <div class="tc-row"><span class="tc-tag">seed</span><span class="tc-time tc-seed">28.515s</span></div>
+      <div class="tc-row"><span class="tc-tag">race</span><span class="tc-time tc-race">28.703s</span></div>
+      <div class="tc-diff" style="color:var(--amber);">+0.188s</div>
+    </div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="section-label">Analysis</div>
+  <div class="insights">
+
+    <div class="insight-card featured">
+      <div class="ic-tag t-blue">S1 + S4 — biggest adjustment of the weekend</div>
+      <div class="ic-title">36th → 20th. 34th → 20th. Between seeding and race, you moved up 16 places in Sector 1 and 14 places in Sector 4.</div>
+      <div class="ic-body">Those two sectors were the primary drag on seeding position. On race day you fixed them — both jumped to 20th in the field. That kind of in-event adjustment, between one timed run and the next, is not common. It reflects course awareness, controlled aggression, and the ability to actually act on feedback. These are the things that separate racers who plateau from racers who keep climbing.</div>
+    </div>
+
+    <div class="insight-card">
+      <div class="ic-tag t-green">Sector 5 — signature strength</div>
+      <div class="ic-stat" style="color:var(--green2);">14th</div>
+      <div class="ic-title">Both runs. No variance.</div>
+      <div class="ic-body">14th in the field in Sector 5 during seeding. 14th in the field during the race. Absolute consistency at the bottom of the mountain. That's your fastest zone relative to the field, and it held under race pressure. Build from it.</div>
+    </div>
+
+    <div class="insight-card">
+      <div class="ic-tag t-green">Race day mentality</div>
+      <div class="ic-stat" style="color:var(--green2);">−0.923s</div>
+      <div class="ic-title">Faster when it counted.</div>
+      <div class="ic-body">Race run was 0.923 seconds quicker than seeding. Moving from 25th to 20th overall. A large portion of the Pro Men field went slower under race pressure. You went the other direction.</div>
+    </div>
+
+    <div class="insight-card">
+      <div class="ic-tag t-amber">Where the margin lives</div>
+      <div class="ic-stat" style="color:var(--amber);">~4.3s</div>
+      <div class="ic-title">Gap to the race leader.</div>
+      <div class="ic-body">Sectors 2 and 3 combined account for most of the time left on the table — roughly 4 seconds combined gap vs the sector bests. Those aren't gap sectors, they're opportunity sectors. S5 already proves the speed is there.</div>
+    </div>
+
+  </div>
+
+  <!-- FIELD CONTEXT -->
+  <div class="section-label">Field context — positions 14–26</div>
+  <div class="field-list">
+    <div class="field-row" style="background:var(--bg3);">
+      <span class="fr-pos" style="color:var(--muted);font-size:10px;">POS</span>
+      <span class="fr-name" style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.1em;">RIDER</span>
+      <span class="fr-time" style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.1em;">TIME</span>
+      <span class="fr-gap" style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.1em;">GAP</span>
+    </div>
+    <div class="field-row"><span class="fr-pos">14</span><span class="fr-name">Aiden Chapin</span><span class="fr-time">2:32.367</span><span class="fr-gap">+3.196</span></div>
+    <div class="field-row"><span class="fr-pos">15</span><span class="fr-name">Luke Mallen</span><span class="fr-time">2:32.397</span><span class="fr-gap">+3.226</span></div>
+    <div class="field-row"><span class="fr-pos">16</span><span class="fr-name">Evan Medcalf</span><span class="fr-time">2:32.822</span><span class="fr-gap">+3.651</span></div>
+    <div class="field-row"><span class="fr-pos">17</span><span class="fr-name">Nikolas Nestoroff</span><span class="fr-time">2:33.022</span><span class="fr-gap">+3.851</span></div>
+    <div class="field-row"><span class="fr-pos">18</span><span class="fr-name">Johnathan Helly</span><span class="fr-time">2:33.362</span><span class="fr-gap">+4.191</span></div>
+    <div class="field-row"><span class="fr-pos">19</span><span class="fr-name">Camden Rutherfurd</span><span class="fr-time">2:33.414</span><span class="fr-gap">+4.243</span></div>
+    <div class="field-row tyler-row"><span class="fr-pos" style="color:var(--accent2);">20</span><span class="fr-name">Tyler Ervin <span class="tyler-tag">you</span></span><span class="fr-time" style="color:var(--accent2);">2:33.484</span><span class="fr-gap" style="color:var(--accent);">+4.313</span></div>
+    <div class="field-row"><span class="fr-pos">21</span><span class="fr-name">Braedyn Davis</span><span class="fr-time">2:34.298</span><span class="fr-gap">+5.127</span></div>
+    <div class="field-row"><span class="fr-pos">22</span><span class="fr-name">Andrew Driscoll</span><span class="fr-time">2:34.360</span><span class="fr-gap">+5.189</span></div>
+    <div class="field-row"><span class="fr-pos">23</span><span class="fr-name">Ryan Pinkerton</span><span class="fr-time">2:35.040</span><span class="fr-gap">+5.869</span></div>
+    <div class="field-row"><span class="fr-pos">24</span><span class="fr-name">Colin McElyea</span><span class="fr-time">2:35.522</span><span class="fr-gap">+6.351</span></div>
+    <div class="divider-row">↑ top 20 · · · bottom 50 ↓</div>
+  </div>
+
+  <!-- RACE WINNER CONTEXT -->
+  <div class="section-label">Race winner</div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:24px;margin-bottom:48px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;">
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.15em;margin-bottom:8px;">RACE WINNER · PRO MEN</div>
+      <div style="font-family:var(--head);font-size:28px;font-weight:700;">Austin Dooley</div>
+      <div style="font-family:var(--mono);font-size:12px;color:var(--muted2);margin-top:4px;">2:29.171 — margin over 2nd: 0.004s</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:4px;">YOUR GAP TO WINNER</div>
+      <div style="font-family:var(--head);font-size:36px;font-weight:700;color:var(--accent2);">4.313s</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px;">across 2 min 33 seconds of racing</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-left">
+      <strong>Red Bull Tennessee National 2026</strong><br>
+      Windrock Bike Park · Oliver Springs, Tennessee<br>
+      UCI Cat 1 · Pro Men · March 20–22, 2026<br>
+      <div class="ai-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Analysis by Claude (Anthropic) · data from artiming.com
+      </div>
+    </div>
+    <div class="footer-right">
+      Sector times extracted from official<br>
+      AR Timing seeding + race result files.<br>
+      Rankings computed across all finishers.
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
